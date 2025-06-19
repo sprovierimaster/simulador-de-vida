@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Simulador de Vida</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<link href="style.css" rel="stylesheet"/>
+</head>
+<body class="bg-gradient-to-br from-blue-900 via-purple-900 to-indigo-900 min-h-screen text-white">
+<!-- Header -->
+<header class="bg-black bg-opacity-30 backdrop-blur-sm border-b border-white border-opacity-20">
+<div class="container mx-auto px-4 py-4">
+<h1 class="text-3xl font-bold text-center bg-gradient-to-r from-cyan-400 to-purple-400 bg-clip-text text-transparent">
+                Simulador de Vida
+            </h1>
+</div>
+</header>
+<!-- Main Game Container -->
+<div class="container mx-auto px-4 py-6">
+<!-- Character Creation Screen -->
+<div class="max-w-2xl mx-auto bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-8 border border-white border-opacity-20 shadow-2xl" id="character-creation">
+<h2 class="text-2xl font-bold mb-6 text-center">Criar Personagem</h2>
+<div class="space-y-6">
+<!-- Name Input -->
+<div>
+<label class="block text-sm font-medium mb-2">Nome</label>
+<input class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-300" id="character-name" placeholder="Digite seu nome" type="text"/>
+</div>
+<!-- Last Name Input -->
+<div>
+<label class="block text-sm font-medium mb-2">Sobrenome</label>
+<input class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white placeholder-gray-300" id="character-lastname" placeholder="Digite seu sobrenome" type="text"/>
+</div>
+<!-- Gender Selection -->
+<div>
+<label class="block text-sm font-medium mb-2">Gênero</label>
+<div class="grid grid-cols-2 gap-4">
+<button class="gender-btn" data-gender="Masculino">Masculino</button>
+<button class="gender-btn" data-gender="Feminino">Feminino</button>
+</div>
+</div>
+<!-- Country Selection -->
+<div>
+<label class="block text-sm font-medium mb-2">País</label>
+<select class="w-full px-4 py-3 bg-white bg-opacity-20 border border-white border-opacity-30 rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-400 text-white" id="character-country">
+<option value="">Selecione um país</option>
+<option value="brasil">Brasil</option>
+<option value="eua">Estados Unidos</option>
+<option value="canada">Canadá</option>
+<option value="reino-unido">Reino Unido</option>
+<option value="franca">França</option>
+<option value="alemanha">Alemanha</option>
+<option value="japao">Japão</option>
+<option value="australia">Austrália</option>
+</select>
+</div>
+<!-- Start Game Button -->
+<button class="w-full py-4 bg-gradient-to-r from-cyan-500 to-purple-500 hover:from-cyan-600 hover:to-purple-600 rounded-lg font-bold text-lg transition-all duration-200 transform hover:scale-105 shadow-lg" id="start-game">
+                    Começar Vida
+                </button>
+</div>
+</div>
+<!-- Game Interface (Hidden initially) -->
+<div class="hidden" id="game-interface">
+<!-- Character Info Panel -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-6 mb-6">
+<!-- Character Stats -->
+<div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20">
+<h3 class="text-xl font-bold mb-4">Informações</h3>
+<div class="space-y-2">
+<div class="flex justify-between">
+<span>Nome:</span>
+<span class="font-semibold" id="display-name"></span>
+</div>
+<div class="flex justify-between">
+<span>Idade:</span>
+<span class="font-semibold" id="display-age">0 anos</span>
+</div>
+<div class="flex justify-between">
+<span>País:</span>
+<span class="font-semibold" id="display-country"></span>
+</div>
+<div class="flex justify-between">
+<span>Classe Social:</span>
+<span class="font-semibold" id="display-social-class"></span>
+</div>
+<div class="flex justify-between">
+<span>Dinheiro da Família:</span>
+<span class="font-semibold" id="display-family-money"></span>
+</div>
+</div>
+</div>
+<!-- Attributes -->
+<div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20">
+<h3 class="text-xl font-bold mb-4">Atributos</h3>
+<div class="space-y-3">
+<div class="attribute-bar">
+<div class="flex justify-between mb-1">
+<span>Inteligência</span>
+<span id="intelligence-value">0</span>
+</div>
+<div class="w-full bg-gray-700 rounded-full h-2">
+<div class="bg-blue-500 h-2 rounded-full transition-all duration-300" id="intelligence-bar" style="width: 0%"></div>
+</div>
+</div>
+<div class="attribute-bar">
+<div class="flex justify-between mb-1">
+<span>Saúde</span>
+<span id="health-value">0</span>
+</div>
+<div class="w-full bg-gray-700 rounded-full h-2">
+<div class="bg-green-500 h-2 rounded-full transition-all duration-300" id="health-bar" style="width: 0%"></div>
+</div>
+</div>
+<div class="attribute-bar">
+<div class="flex justify-between mb-1">
+<span>Beleza</span>
+<span id="beauty-value">0</span>
+</div>
+<div class="w-full bg-gray-700 rounded-full h-2">
+<div class="bg-pink-500 h-2 rounded-full transition-all duration-300" id="beauty-bar" style="width: 0%"></div>
+</div>
+</div>
+<div class="attribute-bar">
+<div class="flex justify-between mb-1">
+<span>Carisma</span>
+<span id="charisma-value">0</span>
+</div>
+<div class="w-full bg-gray-700 rounded-full h-2">
+<div class="bg-yellow-500 h-2 rounded-full transition-all duration-300" id="charisma-bar" style="width: 0%"></div>
+</div>
+</div>
+<div class="attribute-bar">
+<div class="flex justify-between mb-1">
+<span>Força</span>
+<span id="strength-value">0</span>
+</div>
+<div class="w-full bg-gray-700 rounded-full h-2">
+<div class="bg-red-500 h-2 rounded-full transition-all duration-300" id="strength-bar" style="width: 0%"></div>
+</div>
+</div>
+<div class="attribute-bar">
+<div class="flex justify-between mb-1">
+<span>Disciplina</span>
+<span id="discipline-value">0</span>
+</div>
+<div class="w-full bg-gray-700 rounded-full h-2">
+<div class="bg-purple-500 h-2 rounded-full transition-all duration-300" id="discipline-bar" style="width: 0%"></div>
+</div>
+</div>
+<div class="attribute-bar">
+<div class="flex justify-between mb-1">
+<span>Felicidade</span>
+<span id="happiness-value">0</span>
+</div>
+<div class="w-full bg-gray-700 rounded-full h-2">
+<div class="bg-orange-500 h-2 rounded-full transition-all duration-300" id="happiness-bar" style="width: 0%"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Energy and Actions -->
+<div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20">
+<h3 class="text-xl font-bold mb-4">Energia Anual</h3>
+<div class="mb-4">
+<div class="flex justify-between mb-2">
+<span>Energia Restante:</span>
+<span class="font-bold text-cyan-400" id="energy-value">100</span>
+</div>
+<div class="w-full bg-gray-700 rounded-full h-3">
+<div class="bg-cyan-500 h-3 rounded-full transition-all duration-300" id="energy-bar" style="width: 100%"></div>
+</div>
+</div>
+<button class="w-full py-3 bg-gradient-to-r from-green-500 to-blue-500 hover:from-green-600 hover:to-blue-600 rounded-lg font-bold transition-all duration-200 transform hover:scale-105" id="next-year">
+                        Próximo Ano
+                    </button>
+</div>
+</div>
+<!-- Main Game Area -->
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+<!-- Actions Panel -->
+<div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20">
+<h3 class="text-xl font-bold mb-4">Ações Disponíveis</h3>
+<div class="space-y-3" id="actions-container">
+<!-- Actions will be dynamically added here -->
+</div>
+</div>
+<!-- Events and History -->
+<div class="bg-white bg-opacity-10 backdrop-blur-lg rounded-2xl p-6 border border-white border-opacity-20">
+<h3 class="text-xl font-bold mb-4">Eventos e Histórico</h3>
+<div class="space-y-3 max-h-96 overflow-y-auto" id="events-container">
+<!-- Events will be dynamically added here -->
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Scripts -->
+<script src="data/characters.js"></script>
+<script src="data/events.js"></script>
+<script src="data/careers.js"></script>
+<script src="data/education.js"></script>
+<script src="data/relationships.js"></script>
+
+<script src="script.js"></script></body>
+</html>
