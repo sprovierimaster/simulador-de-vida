@@ -274,7 +274,7 @@ function getRandomEvent(age) {
 
 function processEventChoice(event, optionIndex, character) {
     const option = event.options[optionIndex];
-    const effects = { ...option.effects };
+    const effects = { ..option.effects };
     
     // Aplicar efeitos nos atributos
     Object.keys(effects).forEach(attribute => {
